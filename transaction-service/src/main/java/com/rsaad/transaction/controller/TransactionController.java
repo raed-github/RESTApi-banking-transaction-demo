@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * Transaction Controller class
  * will act as an entry point for requests
@@ -21,7 +23,7 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TransactionResponse> placeOrder(@RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<TransactionResponse> processTransaction(@Valid @RequestBody TransactionRequest transactionRequest) {
         TransactionResponse transactionResponse = transactionService.processTransaction(transactionRequest);
         return new ResponseEntity<>(transactionResponse,HttpStatus.CREATED);
     }

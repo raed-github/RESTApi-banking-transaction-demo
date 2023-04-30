@@ -1,8 +1,10 @@
 package com.rsaad.transaction.service.impl;
 
+import com.rsaad.transaction.constants.TransactionConstants;
 import com.rsaad.transaction.dto.TransactionRequest;
 import com.rsaad.transaction.dto.TransactionResponse;
 import com.rsaad.transaction.dto.mapper.DtoMapper;
+import com.rsaad.transaction.exceptions.TransactionProcessingException;
 import com.rsaad.transaction.model.Transaction;
 import com.rsaad.transaction.repository.TransactionRepository;
 import com.rsaad.transaction.service.TransactionService;
@@ -32,9 +34,9 @@ public class TransactionServiceImpl implements TransactionService {
      * @return
      */
     @Override
-    public TransactionResponse processTransaction(TransactionRequest transactionRequest) {
+    public TransactionResponse processTransaction(TransactionRequest transactionRequest) throws TransactionProcessingException {
         Transaction transaction = DtoMapper.mapToTransaction(transactionRequest);
         transactionRepository.save(transaction);
-        return TransactionResponse.builder().message("success").build();
+        return TransactionResponse.builder().message(TransactionConstants.SUCCESS).build();
     }
 }
