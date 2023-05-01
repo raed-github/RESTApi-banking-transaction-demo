@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  transaction-service:
+    container_name: transaction-service
+    image: raedaereatech/tranaction-service:latest
+    ports:
+      - '8080:8080'
+    expose:
+      - '8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://transaction-mysql:3306/transaction-service
+    depends_on:
+      - transaction-mysql
+
+  transaction-mysql:
+    container_name: transaction-mysql
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: transaction-service
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
