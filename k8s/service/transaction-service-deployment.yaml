@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: transaction-service
+  name: transaction-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transaction-service
+  strategy: {}
+  template:
+    metadata:
+
+      labels:
+        app: transaction-service
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://transaction-mysql:3306/transaction-service
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+          image: raedaereatech/transaction-service:latest
+          name: transaction-service
+          resources: {}
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+              httpGet:
+                path: /healthz
+                port: 8081
+              initialDelaySeconds: 15
+              periodSeconds: 10
+          startupProbe:
+              httpGet:
+                path: /healthz
+                port: 8081
+              failureThreshold: 30
+              periodSeconds: 10
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: transaction-service
+  name: transaction-service
+spec:
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 9191
+  selector:
+    app: transaction-service
+status:
+  loadBalancer: {}
