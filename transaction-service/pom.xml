@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tranaction-service</artifactId>
+    <artifactId>transaction-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
